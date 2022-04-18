@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/08 17:03:17 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/18 17:05:13 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 
 typedef struct s_philo
 {
-	int	i;
-	int	number;
-	int	time_life;
-	int	time_eat;
-	int	time_sleep;
+	pthread_mutex_t	mutex;
+	int				i;
+	int				number_of_philosophers;
+	int				number_of_forks;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
 }	t_philo;
 
 int		ft_atoi(const char *str);
