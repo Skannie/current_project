@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:48:26 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/18 17:12:25 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/19 15:45:44 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,41 +21,55 @@
 // pthread_detach(s1); - не ждёт завершения потока s1 и идёт дальше
 // pthread_join(s1, NULL); - ждёт завершения потока s1 после чего идёт дальше
 // usleep(100000); - команда говорит ждать в течении N времени (в микросекудах)
+// void	*print(void *param)
 
-void	*print(void *param)
+// philo->end = philo->current_time.tv_usec 
+// + (philo->current_time.tv_sec * 1000000);
+// time = (philo->end - philo->start) / 1000;
+
+void	*function(void *buf)
 {
-	int	i;
-	int	a;
-	int	j;
-	int	*b;
+	int				time;
+	t_philo			*philo;
 
-	b = (int *)param;
-	i = 3;
-	a = 0;
-	while (a < i)
-	{
-		j = 0;
-		while (b[j])
-		{
-			printf("%d ", b[j]);
-			b[j]++;
-			j++;
-		}
-		printf("\n");
-		a++;
-	}
+	philo = (t_philo *)buf;
+	gettimeofday(&philo->current_time, NULL);
+	philo->start = philo->current_time.tv_usec
+		+ (philo->current_time.tv_sec * 1000000);
+	usleep((philo->time_to_eat));
+	usleep((philo->time_to_sleep));
+	gettimeofday(&philo->current_time, NULL);
+	philo->end = philo->current_time.tv_usec
+		+ (philo->current_time.tv_sec * 1000000);
+	time = (philo->end - philo->start) / 1000;
+	if (philo->time_to_die >= time)
+		printf("ok\n");
+	else
+		printf("philosopher -> die\n");
+	printf("time-->%d\n", time);
+	printf("Exit_proc\n");
 	return (NULL);
 }
 
-void	function(void)
+void	even_philosophers(t_philo *philo)
 {
-	pthread_t		s1;
-	pthread_t		s2;
-	int	b[11] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	pthread_t	life_philo;
 
-	pthread_create(&s1, NULL, print, (void *)b);
-	pthread_join(s1, NULL);
-	printf("Exit\n");
+	printf("chetn\n");
+	while (philo->number_of_philosophers > 0)
+	{
+		philo->number++;
+		pthread_create(&life_philo, NULL, function, (void *)philo);
+		pthread_detach(life_philo);
+		philo->number_of_philosophers--;
+	}
+	pthread_join(life_philo, NULL);
+	printf("Exit_philo\n");
+}
+
+void	odd_philosophers(void)
+{
+	printf("nechetn\n");
 }
 
 int	main(int argc, char *argv[])
@@ -65,13 +79,19 @@ int	main(int argc, char *argv[])
 	philo.i = 0;
 	if (argc == 5)
 	{
+		philo.number = 0;
 		philo.number_of_philosophers = ft_atoi(argv[1]);
-		philo.time_to_die = ft_atoi(argv[2]);
-		philo.time_to_eat = ft_atoi(argv[3]);
-		philo.time_to_sleep = ft_atoi(argv[4]);
-		function();
+		if (philo.number_of_philosophers < 2)
+			return (-1);
+		philo.time_to_die = ft_atoi(argv[2]) * 1000;
+		philo.time_to_eat = ft_atoi(argv[3]) * 1000;
+		philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
+		if (philo.number_of_philosophers % 2 == 0)
+			even_philosophers(&philo);
+		else
+			odd_philosophers();
 		return (0);
 	}
 	else
-		return (1);
+		return (-1);
 }
