@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:48:26 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/20 12:47:09 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/20 20:02:48 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,89 +27,129 @@
 // + (philo->current_time.tv_sec * 1000000);
 // time = (philo->end - philo->start) / 1000;
 
+// Написать массив структур чтобы можно было передавать каждому философу
+// свои значения, для этого надо будте выделить память маллоком.
+// Сделать так чтобы функция определения смерти была в самом мейнике и
+// эту функцию надо отправлять непосредсвенно в каждый поток,
+// чтобы она смотрела умер ли философ.
+// Как смотреть умер ли философ - надо запомнить время когда я зохожу в функцию
+// определения смерти философа, смотреть когда в последний раз ел философ
+// относительно времени когда я зашёл в функцию ревизорро.
+
+int	time_to(t_philo *philo)
+{
+	int	time;
+
+	gettimeofday(&philo->current_time, NULL); // начало отчёта времени до смерти
+	time = philo->current_time.tv_usec
+		+ (philo->current_time.tv_sec * 1000000);
+	return (time);
+}
+
 void	*function(void *buf)
 {
-	// int				time;
+	int				time;
 	t_philo			*philo;
+	int				i;
 
+	i = 1;
 	philo = (t_philo *)buf;
-	printf("philo %d: ", philo->number_of_philosophers);
-	usleep(1000000);
-	philo->i++;
-	// gettimeofday(&philo->current_time, NULL);
-	// philo->start = philo->current_time.tv_usec
-	// 	+ (philo->current_time.tv_sec * 1000000);
-	// usleep((philo->time_to_eat));
-	// usleep((philo->time_to_sleep));
-	// gettimeofday(&philo->current_time, NULL);
-	// philo->end = philo->current_time.tv_usec
-	// 	+ (philo->current_time.tv_sec * 1000000);
-	// time = (philo->end - philo->start) / 1000;
-	// if (philo->time_to_die >= time)
-	// {
-	// 	printf("time-->%d\n", time);
-	// 	printf("ok\n");
-	// 	usleep(100);
-	// function((void *) philo);
-	// }
-	// else
-	// {
-	// 	printf("philosopher -> die\n");
-	// 	philo->i++;
-	// 	printf("Exit_proc\n");
-	// }
-	// printf("time-->%d\n", time);
-	// printf("Exit_proc\n");
+	while (philo->i == 0)
+	{
+		printf("philo %d: ", philo->number);
+		philo->start = time_to(philo);
+		usleep((philo->time_to_eat)); // время которое философ ел
+		printf("eat up\n");
+		usleep((philo->time_to_sleep) + (i * 1000)); // время сна
+		philo->end = time_to(philo);
+		time = (philo->end - philo->start);
+		printf("time-->%d\n", time);
+		if (time <= philo->time_to_die)
+		{
+			i++;
+			// function ((void *)philo);
+		}
+		else
+		{
+			philo->i++;
+			printf("philosopher -> die\n");
+			printf("Exit_proc\n");
+		}
+	}
 	return (NULL);
 }
 
 void	even_philosophers(t_philo *philo)
 {
 	pthread_t	life_philo;
-	int			i;
+
+	printf("chetn\n");
+	pthread_create(&life_philo, NULL, function, philo);
+	pthread_detach(life_philo);
+}
+
+// void	odd_philosophers(void)
+// {
+// 	printf("nechetn\n");
+// }
+
+void	creat_philo(t_philo *philo)
+{
+	if (philo.number_of_philosophers % 2 == 0)
+	{
+		while (philo.number_of_philosophers-- > 0)
+		{
+			philo.number++;
+			// printf("%d\n", philo.number);
+			if (philo.number == 1)
+				even_philosophers(&philo);
+		}
+	}
+	else
+		printf("nechetn\n");
+		// odd_philosophers();
+}
+
+int	values_philo(char *str[], t_philo philo)
+{
+	int	i;
 
 	i = 0;
-	printf("chetn\n");
-	printf("%d\n", philo->number_of_philosophers);
-	i = pthread_create(&life_philo, NULL, function, (void *)philo);
-	printf("create %d\n", i);
-	i = pthread_detach(life_philo);
-	printf("detach %d\n", i);
-	// pthread_join(life_philo, NULL);
-	printf("Exit_philo\n");
+	philo.number_of_philosophers = ft_atoi(str[1]);
+	if (philo.number_of_philosophers < 2)
+		i = 1;
+	philo.time_to_die = ft_atoi(str[2]) * 1000;
+	if (philo.time_to_die < 1)
+		i = 1;
+	philo.time_to_eat = ft_atoi(str[3]) * 1000;
+	if (philo.time_to_die < 1)
+		i = 1;
+	philo.time_to_sleep = ft_atoi(str[4]) * 1000;
+	if (philo.time_to_die < 1)
+		i = 1;
+	return (i);
 }
 
-void	odd_philosophers(void)
-{
-	printf("nechetn\n");
-}
-
-int	main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
 	t_philo	philo;
+	int		i;
 
+	i = 0;
 	philo.i = 0;
 	if (argc == 5)
 	{
 		philo.number = 0;
-		philo.number_of_philosophers = ft_atoi(argv[1]);
-		if (philo.number_of_philosophers < 2)
-			return (-1);
-		philo.time_to_die = ft_atoi(argv[2]) * 1000;
-		philo.time_to_eat = ft_atoi(argv[3]) * 1000;
-		philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
-		if (philo.number_of_philosophers % 2 == 0)
+		i = values_philo(**argv, &philo);
+		if (i == 1)
 		{
-			// while (philo.number_of_philosophers > 0)
-			// {
-				even_philosophers(&philo);
-				// philo.number_of_philosophers--;
-			// }
+			printf("Error");
+			return (-1);
 		}
-		else
-			odd_philosophers();
-		while (philo.i < 0)
+		creat_philo(&philo);
+		while (philo.i == 0)
 			pause();
+		printf("Exit_philo\n");
 		return (0);
 	}
 	else
