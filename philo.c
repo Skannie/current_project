@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:48:26 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/19 15:45:44 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/20 12:47:09 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,41 +29,53 @@
 
 void	*function(void *buf)
 {
-	int				time;
+	// int				time;
 	t_philo			*philo;
 
 	philo = (t_philo *)buf;
-	gettimeofday(&philo->current_time, NULL);
-	philo->start = philo->current_time.tv_usec
-		+ (philo->current_time.tv_sec * 1000000);
-	usleep((philo->time_to_eat));
-	usleep((philo->time_to_sleep));
-	gettimeofday(&philo->current_time, NULL);
-	philo->end = philo->current_time.tv_usec
-		+ (philo->current_time.tv_sec * 1000000);
-	time = (philo->end - philo->start) / 1000;
-	if (philo->time_to_die >= time)
-		printf("ok\n");
-	else
-		printf("philosopher -> die\n");
-	printf("time-->%d\n", time);
-	printf("Exit_proc\n");
+	printf("philo %d: ", philo->number_of_philosophers);
+	usleep(1000000);
+	philo->i++;
+	// gettimeofday(&philo->current_time, NULL);
+	// philo->start = philo->current_time.tv_usec
+	// 	+ (philo->current_time.tv_sec * 1000000);
+	// usleep((philo->time_to_eat));
+	// usleep((philo->time_to_sleep));
+	// gettimeofday(&philo->current_time, NULL);
+	// philo->end = philo->current_time.tv_usec
+	// 	+ (philo->current_time.tv_sec * 1000000);
+	// time = (philo->end - philo->start) / 1000;
+	// if (philo->time_to_die >= time)
+	// {
+	// 	printf("time-->%d\n", time);
+	// 	printf("ok\n");
+	// 	usleep(100);
+	// function((void *) philo);
+	// }
+	// else
+	// {
+	// 	printf("philosopher -> die\n");
+	// 	philo->i++;
+	// 	printf("Exit_proc\n");
+	// }
+	// printf("time-->%d\n", time);
+	// printf("Exit_proc\n");
 	return (NULL);
 }
 
 void	even_philosophers(t_philo *philo)
 {
 	pthread_t	life_philo;
+	int			i;
 
+	i = 0;
 	printf("chetn\n");
-	while (philo->number_of_philosophers > 0)
-	{
-		philo->number++;
-		pthread_create(&life_philo, NULL, function, (void *)philo);
-		pthread_detach(life_philo);
-		philo->number_of_philosophers--;
-	}
-	pthread_join(life_philo, NULL);
+	printf("%d\n", philo->number_of_philosophers);
+	i = pthread_create(&life_philo, NULL, function, (void *)philo);
+	printf("create %d\n", i);
+	i = pthread_detach(life_philo);
+	printf("detach %d\n", i);
+	// pthread_join(life_philo, NULL);
 	printf("Exit_philo\n");
 }
 
@@ -87,9 +99,17 @@ int	main(int argc, char *argv[])
 		philo.time_to_eat = ft_atoi(argv[3]) * 1000;
 		philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
 		if (philo.number_of_philosophers % 2 == 0)
-			even_philosophers(&philo);
+		{
+			// while (philo.number_of_philosophers > 0)
+			// {
+				even_philosophers(&philo);
+				// philo.number_of_philosophers--;
+			// }
+		}
 		else
 			odd_philosophers();
+		while (philo.i < 0)
+			pause();
 		return (0);
 	}
 	else
