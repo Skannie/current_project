@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:48:26 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/21 18:48:29 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/25 16:35:56 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,72 +46,58 @@
 // 	return (time);
 // }
 
-// void	*function(void *buf)
-// {
-// 	int				time;
-// 	t_philo			*philo;
-// 	int				i;
-
-// 	i = 1;
-// 	philo = (t_philo *)buf;
-// 	while (philo->i == 0)
-// 	{
-// 		printf("philo %d: ", philo->number);
-// 		philo->start = time_to(philo);
-// 		usleep((philo->time_to_eat)); // время которое философ ел
-// 		printf("eat up\n");
-// 		usleep((philo->time_to_sleep) + (i * 1000)); // время сна
-// 		philo->end = time_to(philo);
-// 		time = (philo->end - philo->start);
-// 		printf("time-->%d\n", time);
-// 		if (time <= philo->time_to_die)
-// 		{
-// 			i++;
-// 			// function ((void *)philo);
-// 		}
-// 		else
-// 		{
-// 			philo->i++;
-// 			printf("philosopher -> die\n");
-// 			printf("Exit_proc\n");
-// 		}
-// 	}
-// 	return (NULL);
-// }
-
-// void	even_philosophers(t_philo *philo)
-// {
-// 	pthread_t	life_philo;
-
-// 	printf("chetn\n");
-// 	pthread_create(&life_philo, NULL, function, philo);
-// 	pthread_detach(life_philo);
-// }
-
-// void	odd_philosophers(void)
-// {
-// 	printf("nechetn\n");
-// }
-
-void	creat_philo(t_philo *philo)
+void	*function(void *buf)
 {
-	if (philo->number_of_philosophers % 2 == 0)
+	t_flow			*flow;
+
+	flow = (t_flow *)buf;
+	printf("%d\n", flow->id);
+	while (flow->f_kill == 0)
 	{
-		printf("chetn\n");
-		// while (philo->number_of_philosophers-- > 0)
-		// {
-		// 	philo->number++;
-		// 	// printf("%d\n", philo.number);
-		// 	if (philo->number == 1)
-		// 		even_philosophers(&philo);
-		// }
+		usleep((flow->time_to_eat));
+		printf("philo %d: eat\n", flow->id);
+		usleep(flow->time_to_sleep);
+		printf("philo %d: sleep\n", flow->id);
 	}
-	else
-		printf("nechetn\n");
-		// odd_philosophers();
+	return (NULL);
 }
 
-int	values_philo(char *str[], t_philo *philo)
+void	valuse_filo(t_philo *philo, t_flow *flow)
+{
+	flow->time_to_eat = philo->time_to_eat;
+	flow->time_to_sleep = philo->time_to_sleep;
+	flow->f_kill = philo->p_kill;
+	if (philo->number_philosopher_must_eat)
+		flow->number_philosopher_must_eat = philo->number_philosopher_must_eat;
+}
+
+int	creat_philo(t_philo *philo)
+{
+	t_flow	*flow;
+	int		i;
+
+	i = -1;
+	flow = malloc (sizeof(t_flow) * philo->number_of_philosophers);
+	if (!flow)
+		return (-1);
+	while (philo->number_of_philosophers > ++i)
+	{
+		flow[i].id = i + 1;
+		valuse_filo(philo, &(flow[i]));
+		pthread_create(&flow->life_philo, NULL, function, (&flow[i]));
+		pthread_detach(flow->life_philo);
+	}
+	usleep(10000);
+	return (0);
+}
+
+int	error_exit(int i)
+{
+	printf("Error");
+	return (i);
+}
+
+int	values_waiter(char *str[], t_philo *philo)
 {
 	int	i;
 
@@ -142,27 +128,20 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	philo.number_philosopher_must_eat = 0;
-	philo.i = 0;
+	philo.p_kill = 0;
 	if (argc >= 5 && argc <= 6)
 	{
-		philo.number = 0;
-		i = values_philo(argv, &philo);
-		printf("%d\n", philo.number_of_philosophers);
-		printf("%d\n", philo.time_to_die);
-		printf("%d\n", philo.time_to_eat);
-		printf("%d\n", philo.time_to_sleep);
-		printf("%d\n", philo.number_philosopher_must_eat);
+		i = values_waiter(argv, &philo);
 		if (i == 1)
-		{
-			printf("Error");
-			return (-1);
-		}
-		// creat_philo(&philo);
-		// while (philo.i == 0)
-		// 	pause();
+			return (error_exit(i));
+		i = creat_philo(&philo);
+		if (i == 1)
+			return (error_exit(i));
+		while (philo.p_kill == 0)
+			pause();
 		printf("Exit_philo\n");
 		return (0);
 	}
 	else
-		return (-1);
+		return (1);
 }

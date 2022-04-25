@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/21 18:38:58 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/25 16:32:55 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 typedef struct s_philo
 {
 	pthread_mutex_t	mutex;
-	int				i;
-	int				number;
+	int				p_kill;
 	int				number_philosopher_must_eat;
 	int				number_of_philosophers;
 	int				number_of_forks;
@@ -34,11 +33,17 @@ typedef struct s_philo
 	struct timeval	current_time;
 }	t_philo;
 
-typedef struct s_waiter
+typedef struct s_flow
 {
-	
-}	t_waiter;
-
+	t_philo		*philo;
+	pthread_t	life_philo;
+	int			id;
+	int			number_philosopher_must_eat;
+	int			number_of_forks;
+	int			time_to_eat;
+	int			time_to_sleep;
+	int			f_kill;
+}	t_flow;
 
 int		ft_atoi(const char *str);
 int		schar_v_int(const char *strok, int i, int minus);
