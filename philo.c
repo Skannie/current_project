@@ -56,7 +56,7 @@ void	*philo_life(void *buf)
 	time = time_to();
 	while (philo->f_kill == 0)
 	{
-		printf("\033[0;32m%lld %d: is thinking\e[0m\n", (time_to() - time), philo->id);
+		printf("%lld %d: \033[0;32mis thinking\e[0m\n", (time_to() - time), philo->id);
 		if (philo->id % 2)
 		{
 			pthread_mutex_lock(philo->right_fork);
@@ -68,13 +68,13 @@ void	*philo_life(void *buf)
 			pthread_mutex_lock(philo->right_fork);
 		}
 		// print_mu();
-		printf("\033[0;33m%lld %d: has taken a forks\e[0m\n", (time_to()
-					- time), philo->id);
-		printf("\033[0;31m%lld %d: eat\e[0m\n", (time_to() - time), philo->id);
+		printf("%lld %d: \033[0;33mhas taken a forks\e[0m\n", (time_to()
+			- time), philo->id);
+		printf("%lld %d: \033[0;31meat\e[0m\n", (time_to() - time), philo->id);
 		usleep((philo->time_to_eat));
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		printf("\033[0;34m%lld %d: sleep\e[0m\n", (time_to() - time), philo->id);
+		printf("%lld %d: \033[0;34msleep\e[0m\n", (time_to() - time), philo->id);
 		usleep(philo->time_to_sleep);
 	}
 	return (NULL);
