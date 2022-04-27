@@ -5,7 +5,8 @@ CC			=	gcc
 FLAGS		=	-Wall -Wextra -Werror
 HEADER		=	philo.h
 
-SRCS		=	philo.c philo_utils.c
+SRCS		=	philo.c philo_utils.c philo_create.c \
+				philo_time.c values_philo.c
 
 OBJS		=	${SRCS:%.c=%.o}
 
