@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:12:21 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/28 15:46:28 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/28 17:30:45 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long long	time_to(void)
 	return (time);
 }
 
-void	ft_usleep(int time)
+void	ft_sleep(int time)
 {
 	long long	start_time;
 
@@ -31,12 +31,12 @@ void	ft_usleep(int time)
 		usleep(100);
 }
 
-int	check_pulse(t_waiter waiter)
+int	check_pulse(t_waiter *waiter)
 {
-	int	time_to_die;
+	long long	time_to_die;
 
-	time_to_die = time_to() - waiter.start;
-	if (time_to_die >= waiter.time_to_die)
-		waiter.p_kill = 1;
-	return (waiter.p_kill);
+	time_to_die = time_to() - waiter->start;
+	if (time_to_die > (waiter->time_to_die / 1000))
+		waiter->p_kill = 1;
+	return (waiter->p_kill);
 }
