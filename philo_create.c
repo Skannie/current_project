@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:07:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/27 18:58:08 by kannie           ###   ########.fr       */
+/*   Updated: 2022/04/28 15:46:51 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	*philo_life(void *buf)
 
 	philo = (t_philo *)buf;
 	time = time_to();
+	philo->waiter->start = time;
 	while (philo->f_kill == 0)
 	{
 		what_philo_do(philo, time, "36m is thinking", 0);
@@ -87,8 +88,8 @@ void	what_philo_do(t_philo *philo, long long time, char *str, int time_to_do)
 	pthread_mutex_unlock(philo->print_mutx);
 	if (time_to_do > 0)
 	{
-		// check_pulse();
-		usleep(time_to_do);
-		// check_pulse();
+		philo->f_kill = check_pulse(*philo->waiter);
+		ft_usleep(time_to_do);
 	}
 }
+		// check_pulse();
