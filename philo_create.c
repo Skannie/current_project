@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:07:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/28 17:30:24 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/07 16:26:31 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,6 @@ int	create_philo(t_waiter *waiter)
 	return (0);
 }
 
-void	init_forks(t_waiter *waiter)
-{
-	int	i;
-
-	i = -1;
-	while (++i < waiter->number_philo)
-		pthread_mutex_init(&waiter->forks[i], NULL);
-	pthread_mutex_init(&waiter->print_mutx, NULL);
-}
-
 void	lock_fork(t_philo *philo)
 {
 	if (philo->id % 2)
@@ -68,46 +58,59 @@ void	*philo_life(void *buf)
 
 	philo = (t_philo *)buf;
 	time = time_to();
-	philo->waiter->start = time;
+	philo->start = time_to();
 	while (philo->f_kill == 0 && philo->waiter->p_kill == 0)
 	{
-		philo->f_kill = what_philo_do(philo, time, "36m is thinking", 0);
-		lock_fork(philo);
-		philo->f_kill = what_philo_do(philo, time, "32m has taken a forks", 0);
-		philo->f_kill = what_philo_do(philo, time, "33m is eating",
-				philo->time_to_eat);
-		philo->waiter->start = time_to();
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		philo->f_kill = what_philo_do(philo, time, "34m is sleeping",
-				philo->time_to_sleep);
+		if (philo->must_eat == 0)
+		{
+			philo->waiter->must_eat--;
+			break ;
+		}
+		philo->f_kill = life(philo, time);
+		if (philo->f_kill > 0)
+			break ;
 	}
 	return (NULL);
+}
+
+int	life(t_philo *philo, long long time)
+{
+	philo->f_kill = what_philo_do(philo, time, "36m is thinking", 0);
+	lock_fork(philo);
+	if (philo->f_kill > 0)
+		return (philo->f_kill);
+	philo->f_kill = what_philo_do(philo, time, "32m has taken a forks", 0);
+	if (philo->f_kill > 0)
+		return (philo->f_kill);
+	philo->start = time_to();
+	philo->f_kill = what_philo_do(philo, time, "35m is eating",
+			philo->time_to_eat);
+	if (philo->f_kill > 0)
+		return (philo->f_kill);
+	if (philo->must_eat > 0)
+		philo->must_eat--;
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	philo->f_kill = what_philo_do(philo, time, "34m is sleeping",
+			philo->time_to_sleep);
+	if (philo->f_kill > 0)
+		return (philo->f_kill);
+	usleep(100);
+	return (philo->f_kill);
 }
 
 int	what_philo_do(t_philo *philo, long long time, char *str, int time_to_do)
 {
 	int	print_time;
+	int	i;
 
+	i = 0;
 	print_time = time_to() - time;
 	pthread_mutex_lock(philo->print_mutx);
 	printf("%d %d:\033[0;%s\e[0m\n", print_time, philo->id, str);
 	pthread_mutex_unlock(philo->print_mutx);
-	if (time_to_do > 0)
-	{
-		philo->f_kill = check_pulse(philo->waiter);
-		if (philo->f_kill > 0)
-		{
-			printf("%d %d:\033[0;31m died\e[0m\n", print_time, philo->id);
-			return (1);
-		}
-		ft_sleep(time_to_do);
-		philo->f_kill = check_pulse(philo->waiter);
-		if (philo->f_kill > 0)
-		{
-			printf("%d %d:\033[0;31m died\e[0m\n", print_time, philo->id);
-			return (1);
-		}
-	}
-	return (0);
+	i = check_dide(philo, print_time);
+	if (time_to_do > 0 && philo->f_kill == 0)
+		ft_sleep(time_to_do, philo);
+	return (i);
 }

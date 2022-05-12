@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/28 17:15:13 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/12 16:25:03 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ typedef struct s_waiter
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	long long		start;
 }	t_waiter;
 
 typedef struct s_philo
 {
 	t_waiter		*waiter;
 	pthread_t		life_philo;
+	long long		start;
 	int				id;
 	int				must_eat;
 	int				number_of_forks;
@@ -60,7 +60,9 @@ int			what_philo_do(t_philo *philo, long long time, char *str,
 				int time_to_do);
 void		lock_fork(t_philo *philo);
 int			error_exit(int i);
-void		ft_sleep(int time);
-int			check_pulse(t_waiter *waiter);
+void		ft_sleep(int time, t_philo *philo);
+int			check_pulse(t_philo *philo);
+int			check_dide(t_philo *philo, int print_time);
+int			life(t_philo *philo, long long time);
 
 #endif

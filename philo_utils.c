@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/08 17:00:06 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/12 15:53:38 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int	ft_atoi(const char *str)
 			minus = 1;
 		a++;
 	}
-	if (str[a] >= 48 && str[a] <= 57)
+	if (str[a] >= '0' && str[a] <= '9')
 	{
 		b = schar_v_int(str, a, minus);
 		return (b);
 	}
 	else
-		return (0);
+		return (-1);
 }

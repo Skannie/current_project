@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/04/28 16:35:08 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/12 16:28:03 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int	main(int argc, char **argv)
 	if (argc >= 5 && argc <= 6)
 	{
 		i = values_waiter(argv, &waiter);
-		if (i == 1)
+		if (i < 0)
 			return (error_exit(i));
+		printf("//--//");
 		i = create_philo(&waiter);
-		if (i == 1)
+		if (i < 0)
 			return (error_exit(i));
-		while (waiter.p_kill == 0)
+		while (waiter.p_kill == 0 && waiter.must_eat >= 0)
 			continue ;
 		printf("Exit_philo\n");
 		return (0);
