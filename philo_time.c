@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:12:21 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/07 13:45:22 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/16 19:11:04 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ long long	time_to(void)
 	return (time);
 }
 
-void	ft_sleep(int time, t_philo *philo)
+void	ft_sleep(int time, t_philo *philo, int eat)
 {
 	long long	start_time;
 
 	start_time = time_to();
 	while ((time_to() - start_time) < (time / 1000))
 	{
-		philo->f_kill = check_pulse(philo);
+		if (eat == 0)
+			philo->f_kill = check_pulse(philo);
 		if (philo->f_kill > 0)
 			break ;
 		usleep(100);

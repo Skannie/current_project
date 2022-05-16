@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/12 16:25:03 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/16 19:52:36 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,24 @@ typedef struct s_waiter
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutx;
 	int				p_kill;
+	int				sig_eat;
 	int				must_eat;
+	int				*num_eat;
 	int				number_philo;
 	int				number_of_forks;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				info;
 }	t_waiter;
 
 typedef struct s_philo
 {
 	t_waiter		*waiter;
 	pthread_t		life_philo;
+	int				must_eat;
 	long long		start;
 	int				id;
-	int				must_eat;
-	int				number_of_forks;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				f_kill;
@@ -53,16 +55,20 @@ int			create_philo(t_waiter *waiter);
 void		init_forks(t_waiter *waiter);
 void		*philo_life(void *buf);
 int			values_waiter(char *str[], t_waiter *waiter);
-void		values_philo(t_waiter *waiter, t_philo *philo);
+int			num_portion(char *str, t_waiter *waiter);
+void		values_philo(t_waiter *waiter, t_philo *philo, int i);
 void		*philo_life(void *buf);
 long long	time_to(void);
 int			what_philo_do(t_philo *philo, long long time, char *str,
 				int time_to_do);
+int			philo_eat(t_philo *philo, long long time, char *str);
 void		lock_fork(t_philo *philo);
 int			error_exit(int i);
-void		ft_sleep(int time, t_philo *philo);
+void		ft_sleep(int time, t_philo *philo, int eat);
 int			check_pulse(t_philo *philo);
 int			check_dide(t_philo *philo, int print_time);
 int			life(t_philo *philo, long long time);
+int			f_waiter(t_waiter *waiter);
+void		signal_ate(int i, int id, t_waiter *waiter);
 
 #endif
