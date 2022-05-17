@@ -6,44 +6,42 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/16 19:56:11 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:25:31 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	error_exit(int i)
+int	print_exit(int i)
 {
-	printf("Error");
+	if (i == -1)
+		printf("Error\n");
+	else
+		printf("Exit_philo\n");
 	return (i);
 }
 
 int	main(int argc, char **argv)
 {
 	t_waiter	waiter;
+	int			i;
 
+	i = 0;
 	waiter.info = 0;
 	if (argc >= 5 && argc <= 6)
 	{
 		waiter.info = values_waiter(argv, &waiter);
 		if (waiter.info < 0)
-			return (error_exit(waiter.info));
+			return (print_exit(waiter.info));
 		waiter.info = create_philo(&waiter);
 		if (waiter.info < 0)
-			return (error_exit(waiter.info));
-		while (waiter.p_kill == 0 && waiter.sig_eat == 0)
-		{
-			if (waiter.must_eat > 0)
-				if (f_waiter(&waiter) > 0)
-					waiter.sig_eat = 1;
-			continue ;
-		}
-		usleep(100);
-		printf("Exit_philo\n");
-		return (0);
+			return (print_exit(waiter.info));
+		if (waiter.sig_eat == 1)
+			free (waiter.num_eat);
+		return (print_exit(waiter.info));
 	}
 	else
-		return (error_exit(1));
+		return (print_exit(1));
 }
 
 // pthread_mutex_t	mutex; - создание переменной мьютекс

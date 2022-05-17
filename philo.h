@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/16 19:52:36 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:07:27 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_waiter
 {
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	*lock_mu;
 	pthread_mutex_t	print_mutx;
 	int				p_kill;
 	int				sig_eat;
@@ -47,6 +48,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*print_mutx;
+	pthread_mutex_t	*lock_mu;
 }	t_philo;
 
 int			ft_atoi(const char *str);
@@ -59,14 +61,14 @@ int			num_portion(char *str, t_waiter *waiter);
 void		values_philo(t_waiter *waiter, t_philo *philo, int i);
 void		*philo_life(void *buf);
 long long	time_to(void);
-int			what_philo_do(t_philo *philo, long long time, char *str,
+void		what_philo_do(t_philo *philo, long long time, char *str,
 				int time_to_do);
-int			philo_eat(t_philo *philo, long long time, char *str);
+void		philo_eat(t_philo *philo, long long time, char *str);
 void		lock_fork(t_philo *philo);
-int			error_exit(int i);
+int			print_exit(int i);
 void		ft_sleep(int time, t_philo *philo, int eat);
-int			check_pulse(t_philo *philo);
-int			check_dide(t_philo *philo, int print_time);
+void		check_pulse(t_philo *philo);
+void		check_dide(t_philo *philo, int print_time);
 int			life(t_philo *philo, long long time);
 int			f_waiter(t_waiter *waiter);
 void		signal_ate(int i, int id, t_waiter *waiter);

@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:12:21 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/16 19:11:04 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:05:04 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,30 @@ void	ft_sleep(int time, t_philo *philo, int eat)
 	while ((time_to() - start_time) < (time / 1000))
 	{
 		if (eat == 0)
-			philo->f_kill = check_pulse(philo);
-		if (philo->f_kill > 0)
+			check_pulse(philo);
+		if (philo->f_kill > 0 && philo->waiter->p_kill > 0)
 			break ;
 		usleep(100);
 	}
 }
 
-int	check_pulse(t_philo *philo)
+void	check_pulse(t_philo *philo)
 {
 	long long	time_to_die;
 
 	time_to_die = time_to() - philo->start;
 	if (time_to_die > (philo->waiter->time_to_die / 1000))
+	{
+		pthread_mutex_lock(philo->print_mutx);
+		philo->f_kill = 1;
 		philo->waiter->p_kill = 1;
-	return (philo->waiter->p_kill);
+		pthread_mutex_unlock(philo->print_mutx);
+	}
 }
 
-int	check_dide(t_philo *philo, int print_time)
+void	check_dide(t_philo *philo, int print_time)
 {
-	philo->f_kill = check_pulse(philo);
+	check_pulse(philo);
 	if (philo->f_kill > 0)
-	{
 		printf("%d %d:\033[0;31m died\e[0m\n", print_time, philo->id);
-		return (1);
-	}
-	return (0);
 }

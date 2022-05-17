@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/16 19:25:46 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/17 21:07:13 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,7 @@ int	ft_atoi(const char *str)
 		return (-1);
 }
 
-int	num_portion(char *str, t_waiter *waiter)
-{
-	int	i;
-
-	i = -1;
-	waiter->must_eat = ft_atoi(str);
-	if (waiter->must_eat <= 0)
-		return (-1);
-	waiter->num_eat = malloc (sizeof (int) * waiter->number_philo);
-	if (!waiter->num_eat)
-		return (-1);
-	while (++i < waiter->number_philo)
-		waiter->num_eat[i] = 0;
-	return (0);
-}
-
-int	philo_eat(t_philo *philo, long long time, char *str)
+void	philo_eat(t_philo *philo, long long time, char *str)
 {
 	int	print_time;
 	int	i;
@@ -88,11 +72,10 @@ int	philo_eat(t_philo *philo, long long time, char *str)
 		ft_sleep(philo->time_to_eat, philo, 1);
 	if (philo->must_eat > 0)
 	{
-		pthread_mutex_lock(philo->print_mutx);
-		philo->waiter->num_eat[(philo->id - 1)]++;
-		pthread_mutex_unlock(philo->print_mutx);
+		pthread_mutex_lock(philo->lock_mu);
+		(philo->waiter->num_eat[(philo->id - 1)])++;
+		pthread_mutex_unlock(philo->lock_mu);
 	}
-	return (i);
 }
 
 int	f_waiter(t_waiter *waiter)
@@ -104,8 +87,10 @@ int	f_waiter(t_waiter *waiter)
 	num_ate = 0;
 	while (waiter->number_philo > i)
 	{
+		pthread_mutex_lock(&waiter->lock_mu[i]);
 		if (waiter->num_eat[i] >= waiter->must_eat)
 			num_ate++;
+		pthread_mutex_unlock(&waiter->lock_mu[i]);
 		i++;
 	}
 	if (num_ate == waiter->number_philo)
