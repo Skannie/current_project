@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:09:41 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/17 21:25:13 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/18 15:55:35 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	values_philo(t_waiter *waiter, t_philo *philo, int i)
 		philo->right_fork = &waiter->forks[0];
 	else
 		philo->right_fork = &waiter->forks[i + 1];
+	philo->start = time_to();
+	philo->last_eat = philo->start;
 }
 
 void	init_forks(t_waiter *waiter)
