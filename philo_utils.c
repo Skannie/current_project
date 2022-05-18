@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/18 18:54:23 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/18 21:30:12 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ void	philo_eat(t_philo *philo, char *str)
 {
 	long long	time;
 
+	philo->last_eat = time_to();
 	time = time_to() - philo->start;
 	pthread_mutex_lock(philo->print_mutx);
 	printf("%lld %d\033[0;%s\e[0m\n", time, philo->id, str);
 	pthread_mutex_unlock(philo->print_mutx);
 	if (philo->f_kill == 0)
-		ft_sleep((philo->time_to_eat / 1000), philo, 1);
+		ft_sleep((philo->time_to_eat / 1000), philo);
 	if (philo->must_eat > 0)
 	{
 		pthread_mutex_lock(philo->lock_mu);

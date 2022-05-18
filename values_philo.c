@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:09:41 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/18 15:55:35 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/18 21:43:20 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	values_waiter(char *str[], t_waiter *waiter)
 void	values_philo(t_waiter *waiter, t_philo *philo, int i)
 {
 	philo->id = i + 1;
+	philo->start = time_to();
+	philo->last_eat = philo->start;
 	philo->time_to_eat = waiter->time_to_eat;
 	philo->time_to_sleep = waiter->time_to_sleep;
 	philo->must_eat = waiter->must_eat;
@@ -57,8 +59,6 @@ void	values_philo(t_waiter *waiter, t_philo *philo, int i)
 		philo->right_fork = &waiter->forks[0];
 	else
 		philo->right_fork = &waiter->forks[i + 1];
-	philo->start = time_to();
-	philo->last_eat = philo->start;
 }
 
 void	init_forks(t_waiter *waiter)

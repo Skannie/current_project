@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/18 18:57:58 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/18 21:43:05 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		what_philo_do(t_philo *philo, char *str,
 void		philo_eat(t_philo *philo, char *str);
 void		lock_fork(t_philo *philo);
 int			print_exit(int i);
-void		ft_sleep(long long time_do, t_philo *philo, int eat);
+void		ft_sleep(long long time_do, t_philo *philo);
 void		check_pulse(t_philo *philo);
 void		check_dide(t_philo *philo);
 int			f_life(t_philo *philo);
