@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/18 15:28:33 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/19 19:02:19 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(int argc, char **argv)
 			return (print_exit(waiter.info));
 		if (waiter.sig_eat == 1)
 			free (waiter.num_eat);
+		free (waiter.p_kill);
 		return (print_exit(waiter.info));
 	}
 	else

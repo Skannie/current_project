@@ -6,7 +6,7 @@ FLAGS		=	-Wall -Wextra -Werror
 HEADER		=	philo.h
 
 SRCS		=	philo.c philo_utils.c philo_create.c \
-				philo_time.c values_philo.c
+				philo_time.c values_philo.c waiter_check.c
 
 OBJS		=	${SRCS:%.c=%.o}
 

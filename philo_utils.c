@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/18 21:30:12 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/19 19:40:42 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,55 +58,34 @@ int	ft_atoi(const char *str)
 		return (-1);
 }
 
-void	philo_eat(t_philo *philo, char *str)
-{
-	long long	time;
-
-	philo->last_eat = time_to();
-	time = time_to() - philo->start;
-	pthread_mutex_lock(philo->print_mutx);
-	printf("%lld %d\033[0;%s\e[0m\n", time, philo->id, str);
-	pthread_mutex_unlock(philo->print_mutx);
-	if (philo->f_kill == 0)
-		ft_sleep((philo->time_to_eat / 1000), philo);
-	if (philo->must_eat > 0)
-	{
-		pthread_mutex_lock(philo->lock_mu);
-		(philo->waiter->num_eat[(philo->id - 1)])++;
-		pthread_mutex_unlock(philo->lock_mu);
-	}
-}
-
-int	waiter_check_eat(t_waiter *waiter)
+void	lock_fork(t_philo *philo)
 {
 	int	i;
-	int	num_ate;
 
-	i = 0;
-	num_ate = 0;
-	while (waiter->number_philo > i)
+	i = philo->id;
+	if ((i % 2) == 0)
 	{
-		pthread_mutex_lock(&waiter->lock_mu[i]);
-		if (waiter->num_eat[i] >= waiter->must_eat)
-			num_ate++;
-		pthread_mutex_unlock(&waiter->lock_mu[i]);
-		i++;
+		if (check_dide(philo) == 1)
+			return ;
+		pthread_mutex_lock(philo->right_fork);
+		what_philo_do(philo, "32m has taken a  fork", 0);
+		pthread_mutex_lock(philo->left_fork);
+		what_philo_do(philo, "32m has taken a fork", 0);
 	}
-	if (num_ate == waiter->number_philo)
-		return (1);
-	return (0);
+	else
+	{
+		if (check_dide(philo) == 1)
+			return ;
+		pthread_mutex_lock(philo->left_fork);
+		what_philo_do(philo, "32m has taken a fork", 0);
+		pthread_mutex_lock(philo->right_fork);
+		what_philo_do(philo, "32m has taken a fork", 0);
+	}
 }
 
-void	waiter_philo(t_waiter *waiter)
+void	unlock_fork(t_philo *philo)
 {
-	while (1)
-	{
-		if (waiter->must_eat > 0 && waiter_check_eat(waiter) > 0)
-			waiter->sig_eat = 1;
-		pthread_mutex_lock(&waiter->print_mutx);
-		if (waiter->sig_eat == 1 || waiter->p_kill == 1 || waiter->sig_eat == 1)
-			break ;
-		pthread_mutex_unlock(&waiter->print_mutx);
-	}
-	pthread_mutex_unlock(&waiter->print_mutx);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	return ;
 }
