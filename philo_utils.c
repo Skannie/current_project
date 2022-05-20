@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/19 19:40:42 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/21 00:07:14 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	lock_fork(t_philo *philo)
 	i = philo->id;
 	if ((i % 2) == 0)
 	{
-		if (check_dide(philo) == 1)
+		if (philo_check_dide(philo) == 1)
 			return ;
 		pthread_mutex_lock(philo->right_fork);
 		what_philo_do(philo, "32m has taken a  fork", 0);
@@ -74,7 +74,7 @@ void	lock_fork(t_philo *philo)
 	}
 	else
 	{
-		if (check_dide(philo) == 1)
+		if (philo_check_dide(philo) == 1)
 			return ;
 		pthread_mutex_lock(philo->left_fork);
 		what_philo_do(philo, "32m has taken a fork", 0);
@@ -85,7 +85,17 @@ void	lock_fork(t_philo *philo)
 
 void	unlock_fork(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-	return ;
+	int	i;
+
+	i = philo->id;
+	if ((i % 2) == 0)
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+	}
 }

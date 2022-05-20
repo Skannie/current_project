@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/19 19:02:19 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/21 00:26:43 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,19 @@ int	print_exit(int i)
 int	main(int argc, char **argv)
 {
 	t_waiter	waiter;
-	int			i;
+	int			info;
 
-	i = 0;
-	waiter.info = 0;
+	info = 0;
 	if (argc >= 5 && argc <= 6)
 	{
-		waiter.info = values_waiter(argv, &waiter);
-		if (waiter.info < 0)
-			return (print_exit(waiter.info));
-		waiter.info = create_philo(&waiter);
-		if (waiter.info < 0)
-			return (print_exit(waiter.info));
-		if (waiter.sig_eat == 1)
-			free (waiter.num_eat);
-		free (waiter.p_kill);
-		return (print_exit(waiter.info));
+		info = values_waiter(argv, &waiter);
+		if (info < 0)
+			return (print_exit(info));
+		info = create_philo(&waiter);
+		if (info < 0)
+			return (print_exit(info));
+		free (waiter.philo);
+		return (print_exit(info));
 	}
 	else
 		return (print_exit(1));
