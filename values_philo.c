@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:09:41 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/21 00:18:49 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/22 16:28:34 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	init_mut(t_waiter *waiter)
 
 	i = -1;
 	waiter->sig_eat = 0;
-	waiter->forks = malloc (sizeof(pthread_mutex_t) * (waiter->nbr_philo - 1));
+	waiter->forks = malloc (sizeof(pthread_mutex_t) * waiter->nbr_philo);
 	if (!waiter->forks)
 		return (i);
 	while (++i < waiter->nbr_philo)

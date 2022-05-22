@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:12:21 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/21 00:09:17 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/22 17:03:56 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_sleep_philo(long long time_do, t_philo *philo)
 	long long	time_now;
 
 	time_now = time_to();
-	while (time_do > (time_to() - time_now) && philo->f_kill == 0)
+	while (time_do > (time_to() - time_now))
 	{
 		if (philo_check_dide(philo) == 1)
 			break ;

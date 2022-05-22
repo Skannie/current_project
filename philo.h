@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/21 00:01:17 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/22 17:27:43 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void		ft_sleep_philo(long long time_do, t_philo *philo);
 void		ft_sleep_waiter(t_waiter *waiter);
 int			check_dide(t_waiter *waiter);
 void		f_life(t_philo *philo);
-int			waiter_check_eat(t_waiter *waiter);
+void		waiter_check_eat(t_waiter *waiter);
+void		waiter_check_die(t_waiter *waiter);
 void		waiter_philo(t_waiter *waiter);
 void		signal_ate(int i, int id, t_waiter *waiter);
 int			philo_check_dide(t_philo *philo);
