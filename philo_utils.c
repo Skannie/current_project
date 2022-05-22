@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/21 00:07:14 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/22 19:46:08 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	lock_fork(t_philo *philo)
 		if (philo_check_dide(philo) == 1)
 			return ;
 		pthread_mutex_lock(philo->right_fork);
-		what_philo_do(philo, "32m has taken a  fork", 0);
+		what_philo_do(philo, "32m has taken a fork", 0);
 		pthread_mutex_lock(philo->left_fork);
 		what_philo_do(philo, "32m has taken a fork", 0);
 	}

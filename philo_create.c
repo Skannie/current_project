@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:07:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/22 19:07:35 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/22 19:59:53 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ int	create_philo(t_waiter *waiter)
 			(&waiter->philo[i]));
 	}
 	waiter_philo(waiter);
-	i = -1;
-	pthread_mutex_lock(&waiter->print_mutx);
-	while (++i < waiter->nbr_philo)
-	{
-		if (waiter->philo[i].f_kill == 0)
-			waiter->philo[i].f_kill = 1;
-	}
-	pthread_mutex_unlock(&waiter->print_mutx);
 	i = -1;
 	while (++i < waiter->nbr_philo)
 		pthread_join(waiter->philo[i].life_philo, NULL);
@@ -88,7 +80,6 @@ void	f_life(t_philo *philo)
 		return ;
 	pthread_mutex_lock(philo->print_mutx);
 	philo->nbr_eat++;
-	printf("id->%d eat->%d\n", philo->id, philo->nbr_eat);
 	pthread_mutex_unlock(philo->print_mutx);
 	if (philo_check_dide(philo) == 1)
 		return ;
