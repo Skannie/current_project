@@ -6,11 +6,26 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:59:01 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 15:22:03 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/23 22:39:40 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	check_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
 
 int	schar_v_int(const char *strok, int i, int minus)
 {
@@ -33,11 +48,11 @@ int	ft_atoi(const char *str)
 {
 	int				a;
 	int				minus;
-	unsigned int	b;
 
 	a = 0;
-	b = 0;
 	minus = 1;
+	if (check_str((char *)str) > 0)
+		return (-1);
 	while (str[a] == ' ' || str[a] == '\n' || str[a] == '\t'
 		|| str[a] == '\v' || str[a] == '\r' || str[a] == '\f')
 		a++;
@@ -50,10 +65,7 @@ int	ft_atoi(const char *str)
 		a++;
 	}
 	if (str[a] >= '0' && str[a] <= '9')
-	{
-		b = schar_v_int(str, a, minus);
-		return (b);
-	}
+		return (schar_v_int(str, a, minus));
 	else
 		return (-1);
 }
@@ -65,6 +77,9 @@ void	lock_fork(t_philo *philo)
 	i = philo->id;
 	if ((i % 2) == 0)
 	{
+		if (philo->i == 0)
+			usleep(100);
+		philo->i = 1;
 		if (philo_check_dide(philo) == 1)
 			return ;
 		pthread_mutex_lock(philo->right_fork);

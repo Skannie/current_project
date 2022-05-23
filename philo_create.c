@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:07:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 16:02:25 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/23 22:40:34 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,13 @@ void	f_life(t_philo *philo)
 	if (philo_check_dide(philo) == 1)
 		return ;
 	what_philo_do(philo, "36m is thinking", 0);
-	usleep(100);
 	if (philo_check_dide(philo) == 1)
 		return ;
 	lock_fork(philo);
 	pthread_mutex_lock(philo->print_mutx);
-	philo->last_eat = time_to();
 	pthread_mutex_unlock(philo->print_mutx);
 	what_philo_do(philo, "35m is eating", philo->time_to_eat);
+	philo->last_eat = time_to();
 	if (philo_check_dide(philo) == 1)
 	{
 		unlock_fork(philo);
@@ -93,11 +92,7 @@ void	f_life(t_philo *philo)
 void	what_philo_do(t_philo *philo, char *str, int time_to_do)
 {
 	if (philo_check_dide(philo) == 1)
-	{
-		if (str[1] == '5')
-			unlock_fork(philo);
 		return ;
-	}
 	pthread_mutex_lock(philo->print_mutx);
 	printf("%lld %d\033[0;%s\e[0m\n", (time_to() - philo->start), philo->id, str);
 	pthread_mutex_unlock(philo->print_mutx);

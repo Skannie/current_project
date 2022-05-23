@@ -13,7 +13,7 @@ OBJS		=	${SRCS:%.c=%.o}
 RM			=	rm -f
 
 ${NAME}:	$(OBJS)
-			$(CC) $(OBJS) -lpthread -o $(NAME)
+			$(CC) $(OBJS) -o $(NAME) -lpthread
 
 %.o:		%.c
 			$(CC) ${FLAGS} -c $< -o $@

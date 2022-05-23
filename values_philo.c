@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:09:41 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 16:03:00 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/23 22:40:16 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	values_philo(t_waiter *waiter, t_philo *philo, int i)
 {
 	philo->id = i + 1;
 	philo->nbr_eat = 0;
+	philo->i = 0;
 	philo->start = waiter->start;
 	philo->last_eat = philo->start;
 	philo->time_to_eat = waiter->time_to_eat;

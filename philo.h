@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:35:29 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/22 19:30:50 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/23 22:40:05 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 typedef struct s_philo
 {
+	int				i;
 	int				id;
 	long long		start;
 	pthread_t		life_philo;
@@ -50,6 +51,7 @@ typedef struct s_waiter
 
 int			ft_atoi(const char *str);
 int			schar_v_int(const char *strok, int i, int minus);
+int			check_str(char *str);
 int			create_philo(t_waiter *waiter);
 int			init_mut(t_waiter *waiter);
 void		*philo_life(void *buf);

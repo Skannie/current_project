@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 15:03:27 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/23 18:36:55 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	print_exit(int i)
 {
 	if (i == -1)
 		printf("Error\n");
-	else
-		printf("Exit_philo\n");
 	return (i);
 }
 
