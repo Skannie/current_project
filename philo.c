@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/21 00:26:43 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/23 15:03:27 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char **argv)
 		if (info < 0)
 			return (print_exit(info));
 		free (waiter.philo);
+		free (waiter.forks);
 		return (print_exit(info));
 	}
 	else
