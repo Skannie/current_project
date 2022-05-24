@@ -1,6 +1,6 @@
 NAME		=	philo
 
-CC			=	gcc #-g -fsanitize=thread
+CC			=	gcc -g -fsanitize=thread
 
 FLAGS		=	-Wall -Wextra -Werror
 HEADER		=	philo.h
@@ -13,7 +13,7 @@ OBJS		=	${SRCS:%.c=%.o}
 RM			=	rm -f
 
 ${NAME}:	$(OBJS)
-			$(CC) $(OBJS) -o $(NAME) -lpthread
+			$(CC) $(OBJS) -lpthread -o $(NAME)
 
 %.o:		%.c
 			$(CC) ${FLAGS} -c $< -o $@

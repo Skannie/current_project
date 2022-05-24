@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:09:41 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 22:40:16 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/24 15:11:41 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	values_waiter(char *str[], t_waiter *waiter)
 
 	i = 0;
 	waiter->nbr_philo = ft_atoi(str[1]);
-	if (waiter->nbr_philo < 2)
+	if (waiter->nbr_philo < 1)
 		return (-1);
 	waiter->time_to_die = ft_atoi(str[2]);
 	if (waiter->time_to_die < 1)
@@ -43,7 +43,11 @@ void	values_philo(t_waiter *waiter, t_philo *philo, int i)
 {
 	philo->id = i + 1;
 	philo->nbr_eat = 0;
-	philo->i = 0;
+	if (waiter->nbr_philo == 1)
+	{
+		philo->time_to_die = waiter->time_to_die;
+		philo->nbr_philo = 1;
+	}
 	philo->start = waiter->start;
 	philo->last_eat = philo->start;
 	philo->time_to_eat = waiter->time_to_eat;

@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:30:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 18:36:55 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/24 14:26:43 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	print_exit(int i)
 {
 	if (i == -1)
-		printf("Error\n");
+		printf("\033[0;31mError\e[0m\n");
 	return (i);
 }
 

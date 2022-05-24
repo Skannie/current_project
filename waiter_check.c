@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:55:46 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 21:01:38 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/24 16:13:43 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,10 @@ void	waiter_philo(t_waiter *waiter)
 			waiter->philo[i].f_kill = 1;
 	}
 	pthread_mutex_unlock(&waiter->print_mutx);
+}
+
+void	check_1_philo(t_philo *philo)
+{
+	ft_sleep_philo((philo->time_to_die + 1), philo);
+	pthread_mutex_unlock(philo->left_fork);
 }

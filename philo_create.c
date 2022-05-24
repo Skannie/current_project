@@ -6,7 +6,7 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 16:07:18 by kannie            #+#    #+#             */
-/*   Updated: 2022/05/23 22:40:34 by kannie           ###   ########.fr       */
+/*   Updated: 2022/05/24 18:02:33 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,6 @@ void	*philo_life(void *buf)
 	return (NULL);
 }
 
-int	philo_check_dide(t_philo *philo)
-{
-	pthread_mutex_lock(philo->print_mutx);
-	if (philo->f_kill > 0)
-	{
-		pthread_mutex_unlock(philo->print_mutx);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->print_mutx);
-	return (0);
-}
-
 void	f_life(t_philo *philo)
 {
 	if (philo_check_dide(philo) == 1)
@@ -71,15 +59,15 @@ void	f_life(t_philo *philo)
 	if (philo_check_dide(philo) == 1)
 		return ;
 	lock_fork(philo);
-	pthread_mutex_lock(philo->print_mutx);
-	pthread_mutex_unlock(philo->print_mutx);
 	what_philo_do(philo, "35m is eating", philo->time_to_eat);
-	philo->last_eat = time_to();
 	if (philo_check_dide(philo) == 1)
 	{
 		unlock_fork(philo);
 		return ;
 	}
+	pthread_mutex_lock(philo->print_mutx);
+	philo->last_eat = time_to();
+	pthread_mutex_unlock(philo->print_mutx);
 	pthread_mutex_lock(philo->print_mutx);
 	philo->nbr_eat++;
 	pthread_mutex_unlock(philo->print_mutx);
@@ -98,4 +86,16 @@ void	what_philo_do(t_philo *philo, char *str, int time_to_do)
 	pthread_mutex_unlock(philo->print_mutx);
 	if (time_to_do > 0)
 		ft_sleep_philo(time_to_do, philo);
+}
+
+int	philo_check_dide(t_philo *philo)
+{
+	pthread_mutex_lock(philo->print_mutx);
+	if (philo->f_kill > 0)
+	{
+		pthread_mutex_unlock(philo->print_mutx);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->print_mutx);
+	return (0);
 }
