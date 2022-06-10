@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/10 18:37:02 by kannie           ###   ########.fr       */
+/*   Created: 2021/10/21 13:31:04 by kannie            #+#    #+#             */
+/*   Updated: 2021/11/15 15:24:28 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "libft.h"
 
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+char	*ft_strchr(const char *s, int c)
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
+	int		i;
+	char	*str;
 
-#endif
+	i = 0;
+	str = (char *)s;
+	if (c >= 0)
+	{
+		while (str[i] != '\0' && (unsigned char)c != str[i])
+		{
+			i++;
+		}
+		if ((unsigned char)c != str[i])
+			return (NULL);
+		return (&str[i]);
+	}
+	else
+		return (NULL);
+}
