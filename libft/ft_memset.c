@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/11 06:04:37 by kannie           ###   ########.fr       */
+/*   Created: 2021/10/07 17:08:49 by kannie            #+#    #+#             */
+/*   Updated: 2021/10/27 17:32:57 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include "./libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+void	*ft_memset(void *b, int c, int len)
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
+	int				i;
+	unsigned char	*str;
 
-char		*ft_readline(char *str);
-
-#endif
+	i = 0;
+	str = (unsigned char *)b;
+	if (len == 0)
+		return (b);
+	else if (len > 0)
+	{
+		while (len > 0)
+		{
+			str[i] = c;
+			len--;
+			i++;
+		}
+		return (b);
+	}
+	else
+		return (b);
+}

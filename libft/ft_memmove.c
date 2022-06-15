@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/11 06:04:37 by kannie           ###   ########.fr       */
+/*   Created: 2021/10/13 16:08:19 by kannie            #+#    #+#             */
+/*   Updated: 2021/11/08 17:09:12 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include "./libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "libft.h"
 
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+void	*ft_memmove(void *dst, const void *src, int len)
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
+	int	i;
 
-char		*ft_readline(char *str);
-
-#endif
+	i = 0;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	if (dst < src)
+	{
+		while (i != len)
+		{
+			*(unsigned char *)(dst + i) = *(unsigned char *)(src + i);
+			i++;
+		}
+	}
+	else
+	{
+		while (len != 0)
+		{
+			*(unsigned char *)((dst - 1) + len)
+				= *(unsigned char *)((src - 1) + len);
+			len--;
+		}
+	}
+	return (dst);
+}

@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/11 06:04:37 by kannie           ###   ########.fr       */
+/*   Created: 2021/11/14 13:52:33 by kannie            #+#    #+#             */
+/*   Updated: 2021/11/14 14:07:22 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include "./libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "libft.h"
 
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
+	char	*zna;
+	int		i;
 
-char		*ft_readline(char *str);
-
-#endif
+	i = 0;
+	if (!f || !s)
+		return (NULL);
+	zna = malloc(ft_strlen(s) + 1);
+	if (! zna)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		zna[i] = f(i, s[i]);
+		i++;
+	}
+	zna[i] = '\0';
+	return (zna);
+}

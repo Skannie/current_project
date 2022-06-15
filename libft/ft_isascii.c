@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/11 06:04:37 by kannie           ###   ########.fr       */
+/*   Created: 2021/10/06 17:24:36 by kannie            #+#    #+#             */
+/*   Updated: 2021/10/27 17:22:27 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include "./libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "libft.h"
 
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+int	ft_isascii(int c)
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
-
-char		*ft_readline(char *str);
-
-#endif
+	if (c >= 0 && c <= 127)
+		return (1);
+	else
+		return (0);
+}

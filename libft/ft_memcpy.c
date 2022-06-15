@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/11 06:04:37 by kannie           ###   ########.fr       */
+/*   Created: 2021/10/13 14:44:49 by kannie            #+#    #+#             */
+/*   Updated: 2021/10/27 17:34:32 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include "./libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "libft.h"
 
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+void	*ft_memcpy(void *dst, const void *src, int n)
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
+	int	i;
 
-char		*ft_readline(char *str);
-
-#endif
+	i = 0;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	else
+	{
+		while (n > i)
+		{
+			*(unsigned char *)(dst + i) = *(unsigned char *)(src + i);
+			i++;
+		}
+		return (dst);
+	}
+}

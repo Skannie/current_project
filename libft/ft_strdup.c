@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/11 06:04:37 by kannie           ###   ########.fr       */
+/*   Created: 2021/11/08 17:25:19 by kannie            #+#    #+#             */
+/*   Updated: 2021/11/08 17:44:04 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include "./libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+#include "libft.h"
 
-# define EMPTY	0
-# define ARG	1
-
-typedef struct s_token
+char	*ft_strdup(const char *s1)
 {
-	int				key;
-	char			*str;
-	struct s_token	*next;
-	struct s_token	*pre;
-}	t_token;
+	char	*s2;
+	int		i;
 
-char		*ft_readline(char *str);
-
-#endif
+	i = 0;
+	s2 = malloc (ft_strlen(s1) + 1);
+	if (s2 == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
+}
