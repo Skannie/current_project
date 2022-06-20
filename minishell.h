@@ -6,14 +6,14 @@
 /*   By: kannie <kannie@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:40:08 by kannie            #+#    #+#             */
-/*   Updated: 2022/06/10 18:37:02 by kannie           ###   ########.fr       */
+/*   Updated: 2022/06/20 17:24:00 by kannie           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <stdio.h>
-# include <stdlib.h>
+# include "./libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -27,5 +27,9 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*pre;
 }	t_token;
+
+int		skipp_spase(char *str, int i);
+char	*runstr(char *str);
+char	*init_line(char *str);
 
 #endif
